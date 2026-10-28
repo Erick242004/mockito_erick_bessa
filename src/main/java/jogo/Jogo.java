@@ -2,37 +2,47 @@ package jogo;
 
 public class Jogo {
 
-	
+	private final Jogador jogador;
+	private final Dado dado1;
+	private final Dado dado2;
+
+	// Construtor padrÃ£o: mantÃ©m o comportamento original do jogo
+	public Jogo() {
+		this(new Jogador(), new Dado(), new Dado());
+	}
+
+	// Construtor com injeÃ§Ã£o de dependÃªncias: permite passar mocks nos testes
+	public Jogo(Jogador jogador, Dado dado1, Dado dado2) {
+		this.jogador = jogador;
+		this.dado1 = dado1;
+		this.dado2 = dado2;
+	}
+
 	/*
-	 * Se for o primeiro turno e a soma das faces dos dados cair 7 ou 11 você ganha o jogo;
-	 * Se for o primeiro turno e a soma das faces dos dados cair 2, 3 e 12 você perde o jogo; 
-	 * Se não cair nenhum desses valores, o valor é armazenado e passa para o segundo turno;
-	 * Se for o segundo turno e a soma das faces dos dados cair 7 novamente, você perde o jogo;
-	 * Se for o segundo turno, você continuando jogando os dados e só ganha se cair um numero igual ao anterior do primeiro turno;
+	 * Se for o primeiro turno e a soma das faces dos dados cair 7 ou 11 vocÃª ganha o jogo;
+	 * Se for o primeiro turno e a soma das faces dos dados cair 2, 3 e 12 vocÃª perde o jogo;
+	 * Se nÃ£o cair nenhum desses valores, o valor Ã© armazenado e passa para o segundo turno;
+	 * Se for o segundo turno e a soma das faces dos dados cair 7 novamente, vocÃª perde o jogo;
+	 * Se for o segundo turno, vocÃª continua jogando os dados e sÃ³ ganha se cair um nÃºmero igual ao anterior do primeiro turno;
 	 */
-	public boolean jogo(){
-		
-		Jogador jogador = new Jogador();
-		Dado dadinho1 = new Dado();
-		Dado dadinho2 = new Dado();
-		
-		int resultado = jogador.lancar(dadinho1, dadinho2);
-		
-		if(resultado == 7 || resultado == 11) {
+	public boolean jogo() {
+
+		int resultado = jogador.lancar(dado1, dado2);
+
+		if (resultado == 7 || resultado == 11) {
 			return true;
-		}else if(resultado == 2 || resultado == 3 || resultado == 12){
+		} else if (resultado == 2 || resultado == 3 || resultado == 12) {
 			return false;
 		}
-		
+
 		int ponto = resultado;
-		
-		resultado = jogador.lancar(dadinho1, dadinho2);
-	
-		while(resultado != ponto && resultado != 7){
-			resultado = jogador.lancar(dadinho1, dadinho2);
+
+		resultado = jogador.lancar(dado1, dado2);
+
+		while (resultado != ponto && resultado != 7) {
+			resultado = jogador.lancar(dado1, dado2);
 		}
-		
+
 		return resultado == ponto;
-		
 	}
 }
